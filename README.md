@@ -5,4 +5,12 @@
 - TypeScript  
 - TailwindCSS 
 - MongoDB  
-# nextjs_todo-memo
+
+## DB
+- user  
+ユーザー名  
+パスワード  
+残タスク  
+完了タスク  
+メモタイトル  
+メモ内容  
