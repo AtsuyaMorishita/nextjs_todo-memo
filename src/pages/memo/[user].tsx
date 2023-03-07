@@ -10,7 +10,7 @@ export default function Memo() {
       <Header pageTitle="メモ" />
 
       <Layout>
-        <LeadArea />
+        <LeadArea isMemo />
       </Layout>
 
       <MainAreaWrap>

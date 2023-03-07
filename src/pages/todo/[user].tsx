@@ -10,7 +10,7 @@ export default function Todo() {
       <Header pageTitle="TODO" />
 
       <Layout>
-        <LeadArea />
+        <LeadArea isTodo />
       </Layout>
 
       <MainAreaWrap>
