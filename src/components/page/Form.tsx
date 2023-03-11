@@ -1,6 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 import { Logout } from "@mui/icons-material";
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 type FormType = {
   formTitle: string;
@@ -9,21 +12,49 @@ type FormType = {
 };
 
 const Form = ({ formTitle, buttonName, isRegister }: FormType) => {
+  const router = useRouter();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e: any) => {
+    console.log(e);
+    e.preventDefault();
+
+    try {
+      await axios
+        .post("/api/login", {
+          username: username,
+          password: password,
+        })
+        .then((response) => {
+          const username = response.data.username;
+          router.push(`/todo/${username}`);
+        });
+    } catch (err: any) {
+      console.log(err);
+      const errorMessage = err.response.data;
+      alert(errorMessage);
+    }
+  };
+
   return (
-    <div className="border border-solid mt-10 first:mt-0 py-11 px-8 max-w-3xl mx-auto">
+    <div className="border border-solid mt-10 first:mt-0 py-11 px-8 max-w-3xl mx-auto border-main">
       <div className="text-center mb-8">
-        <h2 className="inline-block text-2xl font-semibold border-b-4">
+        <h2 className="inline-block text-2xl font-semibold border-b-4 border-accent">
           {formTitle}
         </h2>
       </div>
 
-      <form action="">
+      <form action="" onSubmit={handleSubmit}>
         <label htmlFor="form-user" className="flex items-center justify-center">
           <span>ユーザー名</span>
           <input
             type="text"
             id="form-user"
-            className="border border-solid p-2 text-sm ml-4 w-80"
+            className="border border-solid p-2 text-sm ml-4 w-80 border-main"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </label>
 
@@ -35,7 +66,9 @@ const Form = ({ formTitle, buttonName, isRegister }: FormType) => {
           <input
             type="text"
             id="form-password"
-            className="border border-solid p-2 text-sm ml-4 w-80"
+            className="border border-solid p-2 text-sm ml-4 w-80 border-main"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </label>
 
@@ -43,14 +76,10 @@ const Form = ({ formTitle, buttonName, isRegister }: FormType) => {
           <input
             type="submit"
             value={buttonName}
-            className="w-56 h-12 border border-solid"
+            className="w-56 h-12 border border-solid border-main bg-accent"
           />
         </div>
       </form>
-
-      {/* <Link href={isRegister ? "#" : "#"} className="text-right text-sm">
-        {isRegister ? "登録済みの方はこちらへ" : "未登録の方はこちらへ"}
-      </Link> */}
     </div>
   );
 };
