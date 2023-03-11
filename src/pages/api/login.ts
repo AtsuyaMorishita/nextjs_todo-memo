@@ -11,28 +11,32 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //mongoDBから全てのユーザーを取得
-  const client = await clientPromise;
-  const collection = client.db("todoMemoApp").collection("user");
-  const users = await collection.find().toArray();
+  try {
+    //mongoDBから全てのユーザーを取得
+    const client = await clientPromise;
+    const collection = client.db("todoMemoApp").collection("user");
+    const users = await collection.find().toArray();
 
-  const username = req.body.username;
-  const password = req.body.password;
+    console.log(users);
 
-  //ユーザーのチェック
-  const yourUser = users.find((user) => {
-    if (user.username !== username) {
-      res.status(500).json("このユーザー名で登録はありません。");
-    } else {
-      console.log("このユーザーは存在しました！");
+    const username = req.body.username;
+    const password = req.body.password;
+
+    //ユーザーのチェック
+    const yourUser = users.find((user) => {
       return user.username === username;
+    });
+    if (!yourUser) {
+      res.status(500).json("このユーザー名で登録はありません。");
     }
-  });
 
-  // パスワードのチェック
-  if (yourUser && yourUser.password !== password) {
-    res.status(500).json("パスワードが間違っています。");
+    // パスワードのチェック
+    if (yourUser && yourUser.password !== password) {
+      res.status(500).json("パスワードが間違っています。");
+    }
+
+    res.status(200).json(yourUser);
+  } catch (err) {
+    console.log(err);
   }
-
-  res.status(200).json(yourUser);
 }
