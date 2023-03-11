@@ -17,8 +17,6 @@ export default async function handler(
     const collection = client.db("todoMemoApp").collection("user");
     const users = await collection.find().toArray();
 
-    console.log(users);
-
     const username = req.body.username;
     const password = req.body.password;
 
@@ -27,12 +25,12 @@ export default async function handler(
       return user.username === username;
     });
     if (!yourUser) {
-      res.status(500).json("このユーザー名で登録はありません。");
+      return res.status(500).json("このユーザー名で登録はありません。");
     }
 
     // パスワードのチェック
     if (yourUser && yourUser.password !== password) {
-      res.status(500).json("パスワードが間違っています。");
+      return res.status(500).json("パスワードが間違っています。");
     }
 
     res.status(200).json(yourUser);

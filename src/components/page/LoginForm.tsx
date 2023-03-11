@@ -11,7 +11,7 @@ type FormType = {
   isRegister?: boolean;
 };
 
-const Form = ({ formTitle, buttonName, isRegister }: FormType) => {
+const LoginForm = ({ formTitle, buttonName, isRegister }: FormType) => {
   const router = useRouter();
 
   const [username, setUsername] = useState("");
@@ -84,4 +84,4 @@ const Form = ({ formTitle, buttonName, isRegister }: FormType) => {
   );
 };
 
-export default Form;
+export default LoginForm;

@@ -1,4 +1,5 @@
-import Form from "@/components/page/Form";
+import LoginForm from "@/components/page/LoginForm";
+import RegisterForm from "@/components/page/RegisterForm";
 import Header from "@/components/project/Header";
 import Layout from "@/components/project/Layout";
 import type {
@@ -33,8 +34,8 @@ export default function Home({
       <Header pageTitle="ログイン・新規登録" />
 
       <Layout>
-        <Form formTitle="ログイン" buttonName="ログイン" />
-        <Form formTitle="新規登録" buttonName="登録する" isRegister />
+        <LoginForm formTitle="ログイン" buttonName="ログイン" />
+        <RegisterForm formTitle="新規登録" buttonName="登録する" isRegister />
       </Layout>
     </>
   );
