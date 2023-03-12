@@ -11,6 +11,8 @@ type TodoType = {
 };
 
 export default function Todo({ id }: TodoType) {
+  //TODO: ユーザー名をLeadAreaコンポーネントへ渡す
+
   return (
     <>
       <Header pageTitle="TODO" />
@@ -46,7 +48,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const id = context.params?.userId;
-  if(!id) throw new Error("ユーザーIDが取得できませんでした")
+  if (!id) throw new Error("ユーザーIDが取得できませんでした");
 
   return {
     props: { id: id ? id : "" },

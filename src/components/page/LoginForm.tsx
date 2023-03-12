@@ -4,7 +4,6 @@ import { Logout } from "@mui/icons-material";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
 
 type FormType = {
   formTitle: string;
@@ -29,9 +28,13 @@ const LoginForm = ({ formTitle, buttonName, isRegister }: FormType) => {
           password: password,
         })
         .then((response) => {
-          Cookies.set("loginUser", JSON.stringify(response.data), { expires: 1 });
-          const id = response.data._id;
-          router.push(`/todo/${id}`);
+          //ユーザー名とidだけローカルストレージに保存し、Todoページへ遷移
+          const setLocalData = {
+            username: response.data.username,
+            _id: response.data._id,
+          };
+          localStorage.setItem("loginUser", JSON.stringify(setLocalData));
+          router.push(`/todo/${setLocalData._id}`);
         });
     } catch (err: any) {
       console.log(err);

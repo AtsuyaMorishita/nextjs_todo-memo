@@ -2,16 +2,24 @@ import Head from "next/head";
 import Link from "next/link";
 import { Logout } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
 
 type HeaderType = {
   pageTitle: string;
 };
 
 const Header = ({ pageTitle }: HeaderType) => {
+  //TODO; ローカルストレージにデータがある状態でログイン画面にいるとエラーが発生する
+
+  //ローカルストレージを取得
+  let localStorageData = null;
+  if (typeof window !== "undefined") {
+    localStorageData = localStorage.getItem("loginUser");
+  }
+
+  //ログアウト時にローカルストレージを削除
   const router = useRouter();
   const handleLogout = () => {
-    Cookies.remove("loginUser");
+    localStorage.removeItem("loginUser");
     router.push("/");
   };
 

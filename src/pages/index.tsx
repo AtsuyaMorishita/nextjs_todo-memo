@@ -7,6 +7,7 @@ import type {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
+import { useRouter } from "next/router";
 import clientPromise from "../../lib/mongodb";
 
 export default function Home({
@@ -14,8 +15,19 @@ export default function Home({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   console.log("mondoDBと接続状況", isConnected);
 
-  const cookie = document.cookie.split(";");
-  console.log(cookie);
+  const router = useRouter();
+
+  //ローカルストレージを取得
+  let localStorageData = null;
+  if (typeof window !== "undefined") {
+    localStorageData = localStorage.getItem("loginUser");
+
+    //ログイン中の場合はTodo画面に遷移
+    if (localStorageData) {
+      const userId = JSON.parse(localStorageData)._id;
+      router.push(`/todo/${userId}`);
+    }
+  }
 
   return (
     <>
