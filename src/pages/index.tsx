@@ -9,6 +9,26 @@ import type {
 } from "next";
 import clientPromise from "../../lib/mongodb";
 
+export default function Home({
+  isConnected,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log("mondoDBと接続状況", isConnected);
+
+  const cookie = document.cookie.split(";");
+  console.log(cookie);
+
+  return (
+    <>
+      <Header pageTitle="ログイン・新規登録" />
+
+      <Layout>
+        <LoginForm formTitle="ログイン" buttonName="ログイン" />
+        <RegisterForm formTitle="新規登録" buttonName="登録する" isRegister />
+      </Layout>
+    </>
+  );
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     await clientPromise;
@@ -23,20 +43,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 };
-
-export default function Home({
-  isConnected,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log("mondoDBと接続状況", isConnected);
-
-  return (
-    <>
-      <Header pageTitle="ログイン・新規登録" />
-
-      <Layout>
-        <LoginForm formTitle="ログイン" buttonName="ログイン" />
-        <RegisterForm formTitle="新規登録" buttonName="登録する" isRegister />
-      </Layout>
-    </>
-  );
-}

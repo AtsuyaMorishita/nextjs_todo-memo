@@ -4,6 +4,7 @@ import { Logout } from "@mui/icons-material";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 type FormType = {
   formTitle: string;
@@ -28,8 +29,9 @@ const LoginForm = ({ formTitle, buttonName, isRegister }: FormType) => {
           password: password,
         })
         .then((response) => {
-          const username = response.data.username;
-          router.push(`/todo/${username}`);
+          Cookies.set("loginUser", JSON.stringify(response.data), { expires: 1 });
+          const id = response.data._id;
+          router.push(`/todo/${id}`);
         });
     } catch (err: any) {
       console.log(err);

@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { Logout } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 type HeaderType = {
   pageTitle: string;
@@ -10,6 +11,7 @@ type HeaderType = {
 const Header = ({ pageTitle }: HeaderType) => {
   const router = useRouter();
   const handleLogout = () => {
+    Cookies.remove("loginUser");
     router.push("/");
   };
 
