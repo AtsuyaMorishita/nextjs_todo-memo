@@ -8,24 +8,21 @@ import ButtonTask from "./ButtonTask";
 type LeadAreaType = {
   isTodo?: boolean;
   isMemo?: boolean;
-  userId: string;
+  userInfo:
+    | {
+        username: string;
+      }
+    | undefined;
 };
 
-const LeadArea = ({ isTodo, isMemo, userId }: LeadAreaType) => {
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const client = await clientPromise;
-  //     const collection = client.db("todoMemoApp").collection("user");
-  //     const users = await collection.find().toArray();
-  //   };
-  //   getUser();
-  // }, []);
-
+const LeadArea = ({ isTodo, isMemo, userInfo }: LeadAreaType) => {
   return (
     <div>
       <p className="text-2xl text-center">【2023.03.04】</p>
       <p className="text-xl text-center mt-6">
-        {`${userId} さん 今日も１日頑張っていきましょう🔥`}
+        {`${
+          userInfo && userInfo.username
+        } さん 今日も１日頑張っていきましょう🔥`}
       </p>
       <div className="mt-8 flex items-center justify-center">
         <ButtonTask taskName="TODO" isTodoIcon isActive={isTodo} />

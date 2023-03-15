@@ -1,6 +1,20 @@
 import { useState } from "react";
 
-const TodoArea = () => {
+type TodoAreaType = {
+  userInfo:
+    | {
+        _id: string;
+        username: string;
+        password: string;
+        "remaining-tasks": [];
+        "completed-tasks": [];
+        "memo-title": string;
+        "memo-content": string;
+      }
+    | undefined;
+};
+
+const TodoArea = ({ userInfo }: TodoAreaType) => {
   //チェックボックスの状態を管理
   const [checked, isChecked] = useState(false);
 

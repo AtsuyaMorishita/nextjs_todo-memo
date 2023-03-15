@@ -28,8 +28,14 @@ const RegisterForm = ({ formTitle, buttonName, isRegister }: FormType) => {
           password: password,
         })
         .then((response) => {
-          alert(response.data);
-          router.push(`/todo/${username}`);
+          console.log(response);
+          //ユーザー名とidだけローカルストレージに保存し、Todoページへ遷移
+          const setLocalData = {
+            username: response.data.username,
+            _id: response.data._id,
+          };
+          localStorage.setItem("loginUser", JSON.stringify(setLocalData));
+          router.push(`/todo/${setLocalData._id}`);
         });
     } catch (err: any) {
       console.log(err);

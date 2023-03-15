@@ -3,7 +3,9 @@ import Header from "@/components/project/Header";
 import Layout from "@/components/project/Layout";
 import LeadArea from "@/components/project/LeadArea";
 import MainAreaWrap from "@/components/project/MainArea";
+import axios from "axios";
 import { GetStaticPropsContext } from "next";
+import { useEffect, useState } from "react";
 import clientPromise from "../../../lib/mongodb";
 
 type TodoType = {
@@ -11,18 +13,31 @@ type TodoType = {
 };
 
 export default function Todo({ id }: TodoType) {
-  //TODO: ユーザー名をLeadAreaコンポーネントへ渡す
+  const [userInfo, setUserInfo] = useState();
+
+  useEffect(() => {
+    //ログイン中のユーザーの情報を取得する
+    const getUser = async () => {
+      try {
+        const user = await axios.get(`/api/getUser?userId=${id}`);
+        await setUserInfo(user.data[0]);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUser();
+  }, []);
 
   return (
     <>
       <Header pageTitle="TODO" />
 
       <Layout>
-        <LeadArea isTodo userId={id} />
+        <LeadArea isTodo userInfo={userInfo} />
       </Layout>
 
       <MainAreaWrap>
-        <TodoArea />
+        <TodoArea userInfo={userInfo} />
       </MainAreaWrap>
     </>
   );
